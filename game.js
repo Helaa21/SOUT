@@ -1,69 +1,95 @@
-const config = {
-  type: Phaser.AUTO,
-  width: 480,
-  height: 320,
-  backgroundColor: '#000000',
-  parent: 'game',
-  physics: {
-    default: 'arcade',
-    arcade: { gravity: { y: 0 } }
-  },
-  scene: { preload, create, update }
-};
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-const game = new Phaser.Game(config);
-
-let player, cursors, metas, textoPregunta, botonContinuar, juegoPausado = false, score = 0;
-let preguntas = [
-  { texto: "S = ¿Qué significa la 'S' en SMART?", correcta: "Específico" },
-  { texto: "M = ¿Qué representa la 'M'?", correcta: "Medible" },
-  { texto: "A = ¿Qué significa la 'A'?", correcta: "Alcanzable" },
-  { texto: "R = ¿Qué significa la 'R'?", correcta: "Relevante" },
-  { texto: "T = ¿Qué representa la 'T'?", correcta: "Limitado en el tiempo" }
+let pacman = { x: 50, y: 50, size: 30, dx: 5, dy: 0 };
+let goals = [
+  { x: 200, y: 200, question: "¿Qué significa la S en SMART?", options: ["Sencillo", "Simple", "Específico"], correct: "Específico" },
+  { x: 400, y: 300, question: "¿Qué representa la M?", options: ["Medible", "Mucho", "Motivador"], correct: "Medible" },
+  { x: 600, y: 150, question: "¿Qué significa la T?", options: ["Tiempo", "Trabajo", "Tarea"], correct: "Tiempo" },
 ];
-let preguntaActual = 0;
 
-function preload() {
-  this.load.image('pacman', 'https://i.ibb.co/RT5QwYz/pacman.png');
-  this.load.image('meta', 'https://i.ibb.co/0QxkgHn/goal.png');
+let currentQuestion = null;
+let keys = {};
+
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+function movePacman() {
+  if (keys["ArrowUp"]) { pacman.dy = -5; pacman.dx = 0; }
+  if (keys["ArrowDown"]) { pacman.dy = 5; pacman.dx = 0; }
+  if (keys["ArrowLeft"]) { pacman.dx = -5; pacman.dy = 0; }
+  if (keys["ArrowRight"]) { pacman.dx = 5; pacman.dy = 0; }
+
+  pacman.x += pacman.dx;
+  pacman.y += pacman.dy;
+
+  if (pacman.x < 0) pacman.x = 0;
+  if (pacman.y < 0) pacman.y = 0;
+  if (pacman.x > canvas.width - pacman.size) pacman.x = canvas.width - pacman.size;
+  if (pacman.y > canvas.height - pacman.size) pacman.y = canvas.height - pacman.size;
 }
 
-function create() {
-  player = this.physics.add.sprite(240, 160, 'pacman').setScale(0.15);
-  metas = this.physics.add.group();
-  for (let i = 0; i < 5; i++) {
-    metas.create(80 + i * 80, Phaser.Math.Between(50, 270), 'meta').setScale(0.07);
+function drawPacman() {
+  ctx.beginPath();
+  ctx.arc(pacman.x, pacman.y, pacman.size, 0.2 * Math.PI, 1.8 * Math.PI);
+  ctx.lineTo(pacman.x, pacman.y);
+  ctx.fillStyle = "yellow";
+  ctx.fill();
+}
+
+function drawGoals() {
+  ctx.fillStyle = "lightgreen";
+  goals.forEach(goal => {
+    ctx.beginPath();
+    ctx.arc(goal.x, goal.y, 20, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+function checkCollisions() {
+  for (let i = 0; i < goals.length; i++) {
+    let g = goals[i];
+    let dist = Math.hypot(pacman.x - g.x, pacman.y - g.y);
+    if (dist < pacman.size + 20) {
+      showQuestion(g);
+      goals.splice(i, 1);
+      break;
+    }
   }
-
-  cursors = this.input.keyboard.createCursorKeys();
-  this.physics.add.overlap(player, metas, mostrarPregunta, null, this);
-  textoPregunta = this.add.text(20, 140, '', { fontSize: '16px', fill: '#fff', wordWrap: { width: 440 } });
 }
 
-function update() {
-  if (juegoPausado) return;
-  player.setVelocity(0);
-  if (cursors.left.isDown) player.setVelocityX(-160);
-  else if (cursors.right.isDown) player.setVelocityX(160);
-  else if (cursors.up.isDown) player.setVelocityY(-160);
-  else if (cursors.down.isDown) player.setVelocityY(160);
+function showQuestion(goal) {
+  document.getElementById("gameCanvas").classList.add("hidden");
+  const box = document.getElementById("questionBox");
+  box.classList.remove("hidden");
+  document.getElementById("questionText").textContent = goal.question;
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  goal.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => {
+      if (opt === goal.correct) {
+        alert("✅ ¡Correcto!");
+      } else {
+        alert("❌ Intenta de nuevo.");
+      }
+      box.classList.add("hidden");
+      document.getElementById("gameCanvas").classList.remove("hidden");
+    };
+    optionsDiv.appendChild(btn);
+  });
 }
 
-function mostrarPregunta(player, meta) {
-  if (juegoPausado) return;
-  meta.disableBody(true, true);
-  juegoPausado = true;
-  let p = preguntas[preguntaActual];
-  textoPregunta.setText(p.texto + "\n\nRespuesta: " + p.correcta);
-  botonContinuar = this.add.text(190, 220, "Continuar ▶", { fontSize: '18px', fill: '#ff0', backgroundColor: '#333', padding: 6 })
-    .setInteractive()
-    .on('pointerdown', () => continuarJuego.call(this));
-  preguntaActual++;
-  if (preguntaActual >= preguntas.length) preguntaActual = 0;
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawPacman();
+  drawGoals();
+  movePacman();
+  checkCollisions();
+  requestAnimationFrame(draw);
 }
 
-function continuarJuego() {
-  textoPregunta.setText('');
-  botonContinuar.destroy();
-  juegoPausado = false;
-}
+draw();
+
