@@ -1,28 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pac-SMART: Come tus metas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pac-SMART</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Phaser 3 CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.js"></script>
 </head>
 <body>
-  <div id="game-container"></div>
-
-  <!-- Modal de preguntas -->
-  <div id="question-modal" class="hidden">
-    <div class="modal-card">
-      <h2 id="modal-title">Pregunta</h2>
-      <p id="modal-question"></p>
-      <div id="modal-options"></div>
-      <p id="modal-feedback"></p>
-      <button id="modal-close">Continuar</button>
-    </div>
-  </div>
-
+  <h1 class="titulo">Pac-SMART: ¡Come tus metas!</h1>
+  <div id="game"></div>
   <script src="game.js"></script>
 </body>
 </html>
-
