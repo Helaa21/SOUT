@@ -1,49 +1,25 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #7bdff2, #b2f7ef, #eff7f6);
-  text-align: center;
-  margin: 0;
-  padding: 20px;
+html,body { height:100%; margin:0; background:#000; font-family:Inter,Segoe UI,Arial; color:#fff; }
+#game-container { width:100%; height:100vh; display:flex; align-items:center; justify-content:center; }
+.hidden { display:none; }
+#question-modal {
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background: rgba(0,0,0,0.6); z-index:9999;
 }
-h1 {
-  color: #0077b6;
+.modal-card {
+  background: #0b1b2b; color:#fff; padding:18px; border-radius:10px; width:90%; max-width:520px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.7);
 }
-.question-container {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  margin: 20px auto;
-  width: 90%;
-  max-width: 500px;
+.modal-card h2{ margin-top:0; color:#ffd166; }
+.modal-card button{ margin-top:12px; padding:8px 14px; border-radius:8px; border:none; background:#06d6a0; color:#003a2b; cursor:pointer; }
+.option-btn {
+  display:block; margin:8px 0; padding:10px; border-radius:8px; border:none; cursor:pointer;
+  background:#1b3b5b; color:#fff;
 }
-.option {
-  display: block;
-  background: #caf0f8;
-  border: none;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 8px 0;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
+.option-btn:hover { filter:brightness(1.1); }
+#modal-feedback { margin-top:8px; font-weight:bold; }
+.scoreboard {
+  position: absolute; left:12px; top:12px; color:#fff; font-weight:600;
+  background: rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px;
 }
-.option:hover {
-  background: #90e0ef;
-}
-#next-btn {
-  margin-top: 20px;
-  background: #0077b6;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  display: none;
-}
-#result {
-  font-weight: bold;
-  margin-top: 15px;
-  color: #03045e;
-}
+.hint { font-size:12px; opacity:0.9; margin-top:6px; color:#c9e4de; }
+
