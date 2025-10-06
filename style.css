@@ -1,25 +1,21 @@
-html,body { height:100%; margin:0; background:#000; font-family:Inter,Segoe UI,Arial; color:#fff; }
-#game-container { width:100%; height:100vh; display:flex; align-items:center; justify-content:center; }
-.hidden { display:none; }
-#question-modal {
-  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-  background: rgba(0,0,0,0.6); z-index:9999;
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
-.modal-card {
-  background: #0b1b2b; color:#fff; padding:18px; border-radius:10px; width:90%; max-width:520px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.7);
-}
-.modal-card h2{ margin-top:0; color:#ffd166; }
-.modal-card button{ margin-top:12px; padding:8px 14px; border-radius:8px; border:none; background:#06d6a0; color:#003a2b; cursor:pointer; }
-.option-btn {
-  display:block; margin:8px 0; padding:10px; border-radius:8px; border:none; cursor:pointer;
-  background:#1b3b5b; color:#fff;
-}
-.option-btn:hover { filter:brightness(1.1); }
-#modal-feedback { margin-top:8px; font-weight:bold; }
-.scoreboard {
-  position: absolute; left:12px; top:12px; color:#fff; font-weight:600;
-  background: rgba(255,255,255,0.06); padding:8px 12px; border-radius:8px;
-}
-.hint { font-size:12px; opacity:0.9; margin-top:6px; color:#c9e4de; }
 
+.titulo {
+  margin: 15px 0;
+  font-size: 24px;
+  color: #ffeb3b;
+  text-shadow: 0 0 10px #ffeb3b;
+}
+
+#game {
+  margin: 0 auto;
+  width: 480px;
+  height: 320px;
+}
