@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Misión SMART: El camino hacia tus metas</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pac-SMART: Come tus metas</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Phaser 3 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
 </head>
 <body>
-  <h1>🎯 Misión SMART 🎯</h1>
-  <p>Ayuda a Guía Meta a restaurar los Cristales SMART respondiendo correctamente.</p>
+  <div id="game-container"></div>
 
-  <div class="question-container">
-    <h2 id="question"></h2>
-    <div id="options"></div>
-    <p id="result"></p>
-    <button id="next-btn">Siguiente ➡️</button>
+  <!-- Modal de preguntas -->
+  <div id="question-modal" class="hidden">
+    <div class="modal-card">
+      <h2 id="modal-title">Pregunta</h2>
+      <p id="modal-question"></p>
+      <div id="modal-options"></div>
+      <p id="modal-feedback"></p>
+      <button id="modal-close">Continuar</button>
+    </div>
   </div>
 
   <script src="game.js"></script>
 </body>
 </html>
+
